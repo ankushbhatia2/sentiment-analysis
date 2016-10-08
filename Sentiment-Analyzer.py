@@ -50,7 +50,7 @@ print(classifier.classify(test_sent_features))
 
 ########################################################################################################################
 #
-#                   Sentiment Analysis of the same test case using sklearn and nltk's linalg
+#           Sentiment Analysis of the same test case using Nearest Neighbour Classification using Cosine Similarity
 #
 ########################################################################################################################
 
@@ -63,16 +63,16 @@ transformer.fit(trainVectorizerArray)
 
 cx = lambda a, b : round(np.inner(a, b)/(LA.norm(a)*LA.norm(b)), 3)
 
-for i, vector in enumerate(trainVectorizerArray):
-    #print (vector)
-    for testV in testVectorizerArray:
-        #print (testV)
-        cosine = cx(vector, testV)
-        #print (cosine)
-        if cosine > 0.5:
-            # ANSWER
-            print(i)
-            print(train[i][1])
+for testV in testVectorizerArray:
+        cos = 0.0
+        ans = ''
+        for n, vector in enumerate(trainVectorizerArray):
+            cosine = cx(vector, testV)
+            if cosine > cos:
+                cos = cosine
+                ans = train[n][1]
+
+        print(ans)
 
 
 transformer.fit(testVectorizerArray)
